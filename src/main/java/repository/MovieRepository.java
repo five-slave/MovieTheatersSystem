@@ -9,17 +9,13 @@ import java.util.List;
 @NoArgsConstructor
 public class MovieRepository implements MockRepository {
 
-    private List<Movie> movies;
-
+    public List<Movie> movies;
+    MockRepository mockRepository;
     @Override
-    public Movie findByName(String name) {
-
-        for(Movie m : movies){
-            if(m.getName().equals(name))
-                return m;
-        }
-
-        return null;
+    public Movie findByName(String name)
+    {
+        Movie movie = mockRepository.findByName(name);
+        return movie;
     }
 
     @Override
@@ -76,6 +72,12 @@ public class MovieRepository implements MockRepository {
     @Override
     public void removeMovie(Movie movie) {
         movies.remove(movie);
+    }
+
+    @Override
+    public int priceOfMovie(Movie movie, int number)
+    {
+        return mockRepository.priceOfMovie(movie,number);
     }
 
     public boolean isValidMovie(Movie movie){
