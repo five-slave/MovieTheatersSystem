@@ -68,6 +68,11 @@ public class MovieService {
         movieRepository.removeMovie(movie);
     }
 
+    public int totalPriceOfMovie(Movie movie,int number)
+    {
+        return movieRepository.totalPriceOfMovie(movie,number);
+    }
+
     public void reserveMovie(Movie movie,int numOfReserveSeat){
 
         Movie targetMovie = movieRepository.findByName(movie.getName());

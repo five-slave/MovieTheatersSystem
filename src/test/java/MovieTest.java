@@ -189,5 +189,16 @@ public class MovieTest {
         assertNull(movieService.findByName("스파이더맨"));
     }
 
+    @Test
+    public void priceOf_LionKing_three_People()
+    {
+        Movie lionKing = new Movie("라이언킹", new Movie.ShowTime(15, 17), 9000, 10);
+        when(mockService.totalPriceOfMovie(lionKing,3)).thenReturn(27000);
+        int price = mockService.totalPriceOfMovie(lionKing,3);
+        assertThat(price,is(27000));
+
+    }
+
+
 
 }
