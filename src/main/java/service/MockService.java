@@ -71,7 +71,7 @@ public class MockService {
     public void reserveMovie(Movie movie,int numOfreserveSeat){
 
         Movie targetMovie = mockRepository.findByName(movie.getName());
-        int remainSeat = targetMovie.getSeet()-numOfreserveSeat;
+        int remainSeat = targetMovie.getSeat()-numOfreserveSeat;
 
         if(!isVaildMovieReservationTime(movie)){
             logErrorMessage("The reservation time is passed");
