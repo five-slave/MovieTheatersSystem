@@ -92,7 +92,7 @@ public class MovieTest {
         Movie reserveMovie =movieService.findByName("존 윅");
         movieService.reserveMovie(reserveMovie,1);
 
-        assertThat(reserveMovie,is(9));
+        assertThat(reserveMovie.getSeat(),is(9));
 
     }
 
