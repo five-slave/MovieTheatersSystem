@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -166,4 +165,29 @@ public class MovieTest {
 
         verify(mockRepository,times(1)).updateSeatOfMovie(any(Movie.class),any(Integer.class));
     }
+
+    @Test
+    public void addMovieTest(){
+        Movie movie = new Movie("스파이더맨", new Movie.ShowTime(3, 5), 10000, 10);
+
+        movieService.addMovie(movie);
+
+        assertThat(movieService.findByName("스파이더맨"),is(movie));
+
+    }
+
+    @Test
+    public void removeMovieTest(){
+        Movie movie = new Movie("스파이더맨", new Movie.ShowTime(3, 5), 10000, 10);
+
+        movieService.addMovie(movie);
+
+        assertThat(movieService.findByName("스파이더맨"),is(movie));
+
+        movieService.removeMovie(movie);
+
+        assertNull(movieService.findByName("스파이더맨"));
+    }
+
+
 }
