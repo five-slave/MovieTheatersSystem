@@ -3,14 +3,15 @@ package domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+
 @AllArgsConstructor
+@Data
 public class Movie {
 
     private String name;
     private ShowTime showtime;
     private int price;
-    private int seet;
+    private int seat;
 
     @Data
     public static class ShowTime{

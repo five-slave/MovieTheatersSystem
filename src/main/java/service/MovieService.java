@@ -2,30 +2,30 @@ package service;
 
 import domain.Movie;
 import repository.MockRepository;
+import repository.MovieRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+public class MovieService {
+    private MovieRepository movieRepository;
 
-public class MockService {
-    private final MockRepository mockRepository;
-
-    public MockService(MockRepository mockRepository)
+    public MovieService(MovieRepository movieRepository)
     {
-        this.mockRepository = mockRepository;
+        this.movieRepository = movieRepository;
     }
 
     //******이름을 이용해서 영화를 찾는다********
     public Movie findByName(String searchName)
     {
-        Movie movie = mockRepository.findByName(searchName);
+        Movie movie = movieRepository.findByName(searchName);
         return movie;
     }
 
     //******사용자가 원하는 시간과 한 시간 내에 있는 영화들을 리스트 안에 담아서 출력
     public List<Movie> findByTime(int movieTime)
     {
-        List<Movie> movies = mockRepository.findByTime(movieTime);
+        List<Movie> movies = movieRepository.findByTime(movieTime);
         return movies;
     }
 
@@ -33,14 +33,14 @@ public class MockService {
     public List<Movie> findByPrice (int price)
     {
 
-        List<Movie> movies = mockRepository.findByPrice(price);
+        List<Movie> movies = movieRepository.findByPrice(price);
         return movies;
     }
 
     //현재 상영하는 영화를 찾는 함수
     public List<Movie> findAllMovie()
     {
-        return mockRepository.findAll();
+        return movieRepository.findAll();
     }
 
 
@@ -59,21 +59,21 @@ public class MockService {
 
     public void addMovie(Movie movie){
 
-        mockRepository.addMovie(movie);
+        movieRepository.addMovie(movie);
     }
 
 
     public void removeMovie(Movie movie){
 
-        mockRepository.removeMovie(movie);
+        movieRepository.removeMovie(movie);
     }
 
     public void reserveMovie(Movie movie,int numOfReserveSeat){
 
-        Movie targetMovie = mockRepository.findByName(movie.getName());
+        Movie targetMovie = movieRepository.findByName(movie.getName());
         int remainSeat = targetMovie.getSeat()-numOfReserveSeat;
 
-        if(!isVaildMovieReservationTime(targetMovie)){
+        if(!isVaildMovieReservationTime(movie)){
             logErrorMessage("The reservation time is passed");
             return ;
         }
@@ -84,7 +84,7 @@ public class MockService {
         }
 
 
-        mockRepository.updateSeatOfMovie(targetMovie,remainSeat);
+        movieRepository.updateSeatOfMovie(targetMovie,remainSeat);
 
     }
 
@@ -105,7 +105,6 @@ public class MockService {
     public void logErrorMessage(String msg){
         throw new RuntimeException(msg);
     }
-
 
 
 }

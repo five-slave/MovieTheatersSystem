@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MovieRepository implements MockRepository {
 
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<Movie>();
 
     @Override
     public Movie findByName(String name) {
@@ -61,7 +61,7 @@ public class MovieRepository implements MockRepository {
 
         Movie updatedMovie = findByName(movie.getName());
 
-        updatedMovie.setSeet(seat);
+        updatedMovie.setSeat(seat);
 
         return updatedMovie;
     }
@@ -100,12 +100,12 @@ public class MovieRepository implements MockRepository {
             lateMovie = movie1;
             earlyMovie = movie2;
         }else
-            return false;
+            return true;
 
         if(lateMovie.getShowtime().getStartTime()<earlyMovie.getShowtime().getEndTime())
-            return false;
+            return true;
 
-        return true;
+        return false;
 
     }
 
