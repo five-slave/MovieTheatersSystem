@@ -1,4 +1,5 @@
 import domain.Movie;
+import javafx.beans.binding.When;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,15 +11,19 @@ import repository.MovieRepository;
 import service.MockService;
 import service.MovieService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieTest {
@@ -97,5 +102,68 @@ public class MovieTest {
         Movie reserveMovie =movieService.findByName("존 윅");
         movieService.reserveMovie(reserveMovie,11);
 
+    }
+
+    @Test
+    public void checkNumOfMovieSeat(){
+        when(mockService.findByName("어벤져스"))
+                .thenReturn(new Movie("어벤져스",new Movie.ShowTime(0,2),10000,10));
+
+        Movie movie = mockService.findByName("어벤져스");
+
+        verify(mockRepository,times(1)).findByName(anyString());
+        assertThat(movie.getSeat(),is(10));
+
+    }
+
+    @Test
+    public void shouldChangeMoneyIs1000WhenPay10000WonForWatchingMovieWhosePriceIs9000Won(){
+        Movie movie = mock(Movie.class);
+
+        when(movie.getPrice()).thenReturn(9000);
+
+        assertThat(mockService.returnChangeMoney(movie,10000),is(1000));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void expectRuntimeExceptionWhenReservePassedMovie(){
+        SimpleDateFormat formatHour = new SimpleDateFormat ( "HH");
+
+        int currentHour = Integer.parseInt(formatHour.format (System.currentTimeMillis()));
+
+        Movie movie = mock(Movie.class);
+
+        given(mockRepository.findByName(anyString()))
+                .willReturn(new Movie(anyString(),new Movie.ShowTime(currentHour-1,currentHour+1),10000,10));
+
+        mockService.reserveMovie(movie,1);
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void expectRunTimeExceptionWhenPay9000WonForWatchingMovieWhosePriceIs10000Won(){
+        Movie movie = mock(Movie.class);
+
+        when(movie.getPrice()).thenReturn(10000);
+
+        mockService.returnChangeMoney(movie,9000);
+    }
+
+    @Test
+    public void shouldUpdateSeatOfMovieMethodOccurOneTimeWhenReserveMovieBeforeTheMovieStartTime(){
+
+        SimpleDateFormat formatHour = new SimpleDateFormat ( "HH");
+
+        int currentHour = Integer.parseInt(formatHour.format (System.currentTimeMillis()));
+
+        Movie movie = mock(Movie.class);
+
+
+        given(mockRepository.findByName(anyString()))
+                .willReturn(new Movie("어벤져스",new Movie.ShowTime(currentHour+1,currentHour+3),10000,10));
+
+        mockService.reserveMovie(movie,1);
+
+        verify(mockRepository,times(1)).updateSeatOfMovie(any(Movie.class),any(Integer.class));
     }
 }

@@ -46,7 +46,7 @@ public class MovieService {
 
     public int returnChangeMoney(Movie movie,int receivedMoney){
 
-        int changeMoney = movie.getPrice() - receivedMoney;
+        int changeMoney = receivedMoney - movie.getPrice();
 
         if(changeMoney<0){
             logErrorMessage("Not enough money");
@@ -68,10 +68,10 @@ public class MovieService {
         movieRepository.removeMovie(movie);
     }
 
-    public void reserveMovie(Movie movie,int numOfreserveSeat){
+    public void reserveMovie(Movie movie,int numOfReserveSeat){
 
         Movie targetMovie = movieRepository.findByName(movie.getName());
-        int remainSeat = targetMovie.getSeat()-numOfreserveSeat;
+        int remainSeat = targetMovie.getSeat()-numOfReserveSeat;
 
         if(!isVaildMovieReservationTime(movie)){
             logErrorMessage("The reservation time is passed");

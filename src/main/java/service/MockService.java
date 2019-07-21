@@ -46,7 +46,7 @@ public class MockService {
 
     public int returnChangeMoney(Movie movie,int receivedMoney){
 
-        int changeMoney = movie.getPrice() - receivedMoney;
+        int changeMoney = receivedMoney - movie.getPrice();
 
         if(changeMoney<0){
             logErrorMessage("Not enough money");
@@ -68,12 +68,12 @@ public class MockService {
         mockRepository.removeMovie(movie);
     }
 
-    public void reserveMovie(Movie movie,int numOfreserveSeat){
+    public void reserveMovie(Movie movie,int numOfReserveSeat){
 
         Movie targetMovie = mockRepository.findByName(movie.getName());
-        int remainSeat = targetMovie.getSeat()-numOfreserveSeat;
+        int remainSeat = targetMovie.getSeat()-numOfReserveSeat;
 
-        if(!isVaildMovieReservationTime(movie)){
+        if(!isVaildMovieReservationTime(targetMovie)){
             logErrorMessage("The reservation time is passed");
             return ;
         }
