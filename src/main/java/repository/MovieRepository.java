@@ -78,6 +78,13 @@ public class MovieRepository implements MockRepository {
         movies.remove(movie);
     }
 
+    @Override
+    public int totalPriceOfMovie(Movie movie, int number)
+    {
+        return movie.getPrice()*number;
+    }
+
+
     public boolean isValidMovie(Movie movie){
 
         for(Movie m : movies){

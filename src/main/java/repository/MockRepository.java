@@ -16,6 +16,8 @@ public interface MockRepository {
 
     Movie updateSeatOfMovie(Movie movie, int seat);
 
+    int totalPriceOfMovie(Movie movie,int number);
+
     void addMovie(Movie movie);
 
     void removeMovie(Movie movie);

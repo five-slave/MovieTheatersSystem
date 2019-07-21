@@ -68,6 +68,11 @@ public class MockService {
         mockRepository.removeMovie(movie);
     }
 
+    public int totalPriceOfMovie(Movie movie,int number)
+    {
+        return mockRepository.totalPriceOfMovie(movie,number);
+    }
+
     public void reserveMovie(Movie movie,int numOfReserveSeat){
 
         Movie targetMovie = mockRepository.findByName(movie.getName());
